@@ -3,8 +3,6 @@ from jobs.items import Jobs
 from scrapy.loader import ItemLoader
 import datetime
 
-dt_now = datetime.datetime.now()
-
 
 class SekokannaviSpider(scrapy.Spider):
     name = "sekokannavi"
@@ -18,7 +16,7 @@ class SekokannaviSpider(scrapy.Spider):
         loader.add_css('location', 'p.location_text::text')
         loader.add_css('price', 'table.detail_table p.salary_text>span::text')
         loader.add_value('agent', 'agentA')
-        loader.add_value('data_added', dt_now)
+        loader.add_value('data_added', datetime.datetime.now())
         loader.add_value('create_user_company', 'companyA')
         yield loader.load_item()
 

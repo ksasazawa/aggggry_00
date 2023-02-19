@@ -22,6 +22,12 @@ class Jobs(scrapy.Item):
         input_processor = MapCompose(convert_yen),
         output_processor = TakeFirst()
     )
-    agent = scrapy.Field()
-    data_added = scrapy.Field()
-    create_user_company = scrapy.Field()
+    agent = scrapy.Field(
+        output_processor = TakeFirst()
+    )
+    data_added = scrapy.Field(
+        output_processor = TakeFirst()
+    )
+    create_user_company = scrapy.Field(
+        output_processor = TakeFirst()
+    )
