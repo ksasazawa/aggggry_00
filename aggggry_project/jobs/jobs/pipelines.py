@@ -11,11 +11,31 @@ class JobsPipeline:
     def open_spider(self, spider):
         # db.sqlite3と同じディレクトリに移動
         os.chdir('../')
-        print("現在のディレクトリは")
-        print(os.getcwd())
+        print(f"現在のディレクトリは{os.getcwd()}")
         
-        self.connection = sqlite3.connect('db.sqlite3')
-        self.c = self.connection.cursor()
+        if spider.name == "gen-caree":
+            self.connection = sqlite3.connect('db.sqlite3')
+            self.c = self.connection.cursor()
+            self.c.execute('''
+                            DELETE FROM aggggry_app_jobs WHERE agent = '株式会社コプロ・エンジニアード'
+                                ''')
+            self.connection.commit()
+            
+        if spider.name == "conma":
+            self.connection = sqlite3.connect('db.sqlite3')
+            self.c = self.connection.cursor()
+            self.c.execute('''
+                            DELETE FROM aggggry_app_jobs WHERE agent = '株式会社アーキ・ジャパン'
+                                ''')
+            self.connection.commit()
+            
+        if spider.name == "kyodo":
+            self.connection = sqlite3.connect('db.sqlite3')
+            self.c = self.connection.cursor()
+            self.c.execute('''
+                            DELETE FROM aggggry_app_jobs WHERE agent = '共同エンジニアリング株式会社'
+                                ''')
+            self.connection.commit()
         
     def process_item(self, item, spider):
         self.c.execute('''
