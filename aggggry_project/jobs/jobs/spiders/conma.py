@@ -64,5 +64,5 @@ class ConmaSpider(scrapy.Spider):
             url = job.css('div.btn-group>div.btn-group__right.hide-sp>a::attr(href)').get()       
             yield response.follow(url=url, callback=self.parse_item)
         next_page = response.css('li.next>a::attr(href)').get()
-        if next_page == '/zenkoku/PC13/MC1?page=2':
+        if next_page:
             yield response.follow(url=next_page, callback=self.parse)

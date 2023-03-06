@@ -8,6 +8,9 @@ class OreyumeSpider(scrapy.Spider):
     name = "oreyume"
     allowed_domains = ["oreyume.com"]
     start_urls = ["https://www.oreyume.com/search/JB63/JS21057/PC13/EC33/"]
+    
+    def __init__(self):
+        self.page_cnt = 1
 
     def parse_item(self, response):
         rows = response.css("div#unker02>table tr")
@@ -40,5 +43,7 @@ class OreyumeSpider(scrapy.Spider):
             url = job.css('div.excerpt_txt_box a.todec::attr(href)').get() 
             yield response.follow(url=url, callback=self.parse_item)
         next_page = response.css('div.pager.d-none.d-md-block li.next>a::attr(href)').get()
-        if next_page == '?page=2':
-          yield response.follow(url=next_page, callback=self.parse)
+        if next_page and next_page != f'?page={self.page_cnt}':
+            print(f"{self.page_cnt}ページ目です")
+            self.page_cnt += 1
+            yield response.follow(url=next_page, callback=self.parse)

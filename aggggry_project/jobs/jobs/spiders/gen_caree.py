@@ -7,7 +7,7 @@ import datetime
 class GenCareeSpider(scrapy.Spider):
     name = "gen-caree"
     allowed_domains = ["g-career.net"]
-    start_urls = ["https://www.g-career.net/jobs/list?employment%5B%5D=1&parent_area%5B%5D=436&prefecture_area%5B%5D=013&city_area%5B%5D=%E6%9D%B1%E4%BA%AC23%E5%8C%BA%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B%5D=%E5%85%AB%E7%8E%8B%E5%AD%90%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B%5D=%E7%AB%8B%E5%B7%9D%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B%5D=%E6%AD%A6%E8%94%B5%E9%87%8E%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B%5D=%E5%BA%9C%E4%B8%AD%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B%5D=%E7%94%BA%E7%94%B0%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B%5D=%E6%9D%B1%E4%BA%AC%E9%83%BD%E3%80%90%E3%81%9D%E3%81%AE%E4%BB%96%E3%80%91&occupation%5B%5D=2&keyword="]
+    start_urls = ["https://www.g-career.net/jobs/list?employment%5B%5D=1&parent_area%5B%5D=436&prefecture_area%5B%5D=013&occupation%5B%5D=2&keyword=%E6%9D%B1%E4%BA%AC"]
 
     # https://qiita.com/fukuyama012/items/f0121f67a3efb675c1b0
     # custom_settings = {
@@ -44,6 +44,6 @@ class GenCareeSpider(scrapy.Spider):
             url = job.css('div.jobIn>a::attr(href)').get()            
             yield response.follow(url=url, callback=self.parse_item)
         next_page = response.css('div.pagerBox.pcOnly>ul.pagerItems>li.pagerItem_next>a::attr(href)').get()
-        if next_page == "https://www.g-career.net/jobs/list?employment%5B0%5D=1&parent_area%5B0%5D=436&prefecture_area%5B0%5D=013&city_area%5B0%5D=%E6%9D%B1%E4%BA%AC23%E5%8C%BA%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B1%5D=%E5%85%AB%E7%8E%8B%E5%AD%90%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B2%5D=%E7%AB%8B%E5%B7%9D%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B3%5D=%E6%AD%A6%E8%94%B5%E9%87%8E%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B4%5D=%E5%BA%9C%E4%B8%AD%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B5%5D=%E7%94%BA%E7%94%B0%E5%B8%82%E3%82%A8%E3%83%AA%E3%82%A2&city_area%5B6%5D=%E6%9D%B1%E4%BA%AC%E9%83%BD%E3%80%90%E3%81%9D%E3%81%AE%E4%BB%96%E3%80%91&occupation%5B0%5D=2&page=2":
+        if next_page and next_page != "#":
         # if next_page != "#":
             yield response.follow(url=next_page, callback=self.parse)
